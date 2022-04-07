@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -14,18 +14,20 @@
 	<div id="wrap">
 		
 		<!-- 개인블로그 해더 -->
+		<c:import url="/WEB-INF/views/includes/blog-header.jsp"></c:import>
 
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn selected"><a href="">기본설정</a></li>
-				<li class="tabbtn"><a href="">카테고리</a></li>
-				<li class="tabbtn"><a href="">글작성</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${blogUser.id}/admin/basic">기본설정</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${blogUser.id}/admin/category">카테고리</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${blogUser.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
 			
 			<div id="admin-content">
-				<form action="" method="">
+				<form action="${pageContext.request.contextPath}/post/add" method="post">
+					<input type="hidden" name="id" value="${blogUser.id}">
 			      	<table id="admin-write">
 			      		<colgroup>
 							<col style="width: 100px;">
@@ -40,8 +42,11 @@
 				      		<td>
 				      			<select name="cateNo">
 				      				<!-- 카테고리 리스트 영역 -->
-				      				<option value="">자바프로그래밍</option>
-				      				<option value="">오라클</option>
+				      				<c:forEach items="${categoryList}" var="vo">
+				      					<option value="${vo.cateNo}">${vo.cateName}</option>
+				      				</c:forEach>
+				      				
+				      				
 				      				<!-- 카테고리 리스트 영역 -->
 				      			</select>
 				      		</td>
@@ -62,9 +67,12 @@
 		<!-- //content -->
 		
 		<!-- 개인블로그 푸터 -->
+		<c:import url="/WEB-INF/views/includes/blog-footer.jsp"></c:import>
 	
 	
 	</div>
 	<!-- //wrap -->
 </body>
+
+
 </html>

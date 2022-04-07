@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comments">
+	
+	
+	<insert id="insertSelectNo" parameterType="CommentsVo">
+		<selectKey keyProperty="cmtNo" resultType="int" order="BEFORE">
+			select seq_comments_no.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into comments
+			values(#{cmtNo},
+				   #{postNo},
+				   #{userNo},
+				   #{cmtContent},
+				   sysdate
+			)
+		]]>
+	</insert>
+	
+	<select id="selectComment" parameterType="int" resultType="CommentsVo">
+		<![CDATA[
+			select cmtNo,
+				   c.userNo,
+				   cmtContent,
+				   to_char(regDate,'yyyy/mm/dd') regDate,
+				   userName
+			from comments c, users u
+			where c.userNo = u.userNo and
+				  cmtNo = #{cmtNo}
+		]]>
+	</select>
+	
+	<select id="selectCmtList" parameterType="int" resultType="CommentsVo">
+		<![CDATA[
+			select cmtNo,
+				   c.userNo,
+				   cmtContent,
+				   to_char(regDate,'yyyy/mm/dd') regDate,
+				   userName
+			from comments c, users u
+			where c.userNo = u.userNo and
+				  postNo = #{postNo}
+			order by cmtNo desc
+		]]>
+	</select>
+	
+	<delete id="deleteCmt" parameterType="int">
+		<![CDATA[
+			delete from comments
+			where cmtNo = #{cmtNo}
+		]]>
+	</delete>
+
+</mapper>

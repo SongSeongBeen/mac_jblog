@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<insert id="insertUser" parameterType="UserVo">
+		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+			select seq_users_no.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into users
+			values(#{userNo},
+				   #{id},
+				   #{userName},
+				   #{password},
+				   sysdate
+			)
+		]]>
+	</insert>
+	
+	<select id="selectAuthUser" parameterType="UserVo" resultType="UserVo">
+		<![CDATA[
+			select userNo,
+				   id,
+				   userName
+			from users
+			where id = #{id} and password = #{password}
+		]]>
+	</select>
+	
+	<select id="selectUser" parameterType="int" resultType="UserVo">
+		<![CDATA[
+			select id,
+				   userName
+			from users
+			where userNo = #{userNo}
+		]]>
+	</select>
+	
+	<select id="selectUidCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(userNo)
+			from users
+			where id = #{id}
+		]]>
+	</select>
+	
+	<select id="selectBlogUser" parameterType="String" resultType="UserVo">
+		<![CDATA[
+			select id,
+				   userName
+			from users
+			where id = #{id}
+		]]>
+	</select>
+	
+
+</mapper>

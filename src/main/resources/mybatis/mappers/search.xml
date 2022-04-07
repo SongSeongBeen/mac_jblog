@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+	
+	
+	<select id="selectByTitle" parameterType="Map" resultType="SearchVo">
+		<![CDATA[
+			select rt.logofile,
+			       rt.blogtitle,
+			       rt.username,
+			       rt.id,
+			       rt.joindate
+			from(            
+			    select rownum rn,
+			           ot.logofile,
+			           ot.blogtitle,
+			           ot.username,
+			           ot.id,
+			           ot.joindate
+			    from(
+			        select logoFile,
+			               blogTitle,
+			               u.userName,
+			               u.id,
+			               to_char(joinDate,'yyyy-mm-dd') joinDate
+			        from users u, blog b
+			        where u.id = b.id and
+			              lower(blogTitle) like '%' ||  lower(#{keyword}) || '%'
+			              order by joinDate desc
+			    ) ot
+			) rt
+			where rn >= #{startRnum} and rn <= #{endRnum}
+			      
+		]]>
+	</select>
+	
+	<select id="selectByName" parameterType="Map" resultType="SearchVo">
+		<![CDATA[
+			select rt.logofile,
+			       rt.blogtitle,
+			       rt.username,
+			       rt.id,
+			       rt.joindate
+			from(            
+			    select rownum rn,
+			           ot.logofile,
+			           ot.blogtitle,
+			           ot.username,
+			           ot.id,
+			           ot.joindate
+			    from(
+			        select logoFile,
+			               blogTitle,
+			               u.userName,
+			               u.id,
+			               to_char(joinDate,'yyyy-mm-dd') joinDate
+			        from users u, blog b
+			        where u.id = b.id and
+			              lower(userName) like '%' || lower(#{keyword}) || '%'
+			              order by joinDate desc
+			    ) ot
+			) rt
+			where rn >= #{startRnum} and rn <= #{endRnum}
+		]]>
+	</select>
+	
+	
+	
+	<select id="selectByTitleTotal" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*)
+			from users u, blog b
+			where u.id = b.id and
+			      blogTitle like '%' ||  #{keyword} || '%'
+		]]>
+	</select>
+	
+	
+	<select id="selectByNameTotal" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*)
+			from users u, blog b
+			where u.id = b.id and
+			      userName like '%' ||  #{keyword} || '%'
+		]]>
+	</select>
+
+</mapper>

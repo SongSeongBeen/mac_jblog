@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	
+	<insert id="insertCategory" parameterType="CategoryVo">
+		<![CDATA[
+			insert into category
+			values( seq_category_no.nextval,
+					#{id},
+					#{cateName},
+					#{description},
+					sysdate
+			)
+		]]>
+	</insert>
+	
+	<select id="selectCateList" parameterType="String" resultType="CategoryVo">
+		<![CDATA[
+			select cateNo,
+				   cateName,
+				   regDate
+			from category
+			where id= #{id}
+			order by regDate desc
+		]]>
+	</select>
+
+	
+	<select id="selectRecentCateNo" parameterType="String" resultType="int">
+		<![CDATA[
+			select max(cateNo)
+			from category
+			where id= #{id}
+		]]>
+	</select>
+	
+	<select id="selectAdminCateList" parameterType="String" resultType="CategoryVo">
+		<![CDATA[
+			select c.cateNo cateNo, 
+			       cateName, 
+			       description, 
+			       count(postNo) postNum
+			from category c, post p
+			where c.cateNo = p.cateNo(+) and 
+				  id = #{id}
+			group by c.cateNo, cateName, description
+			order by cateNo desc
+		]]>
+	</select>
+	
+	
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+			delete from category
+			where cateNo = #{cateNo}
+		]]>
+	</delete>
+	
+	<insert id="insertSelectCate" parameterType="CategoryVo">
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+			select seq_category_no.nextval from dual
+		</selectKey>
+		<![CDATA[
+			insert into category
+			values( #{cateNo},
+					#{id},
+					#{cateName},
+					#{description},
+					sysdate
+			)
+		]]>
+	</insert>
+	
+	
+	<select id="selectCategory" parameterType="int" resultType="CategoryVo">
+		<![CDATA[
+			select c.cateNo, 
+			       cateName, 
+			       description, 
+			       count(postNo) postNum
+			from category c, post p
+			where c.cateNo = p.cateNo(+) and c.cateNo = #{cateNo}
+			group by c.cateNo, cateName, description
+		]]>
+	</select>
+	
+	<select id="selectOptCateList" parameterType="String" resultType="CategoryVo">
+		<![CDATA[
+			select cateNo, 
+			       cateName
+			from category
+			where id = #{id}
+			order by cateNo desc
+		]]>
+	</select>
+</mapper>
