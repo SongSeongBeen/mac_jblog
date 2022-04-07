@@ -35,14 +35,12 @@ public class BlogController {
 	public UserVo blogUser(@PathVariable("id") String id) {
 		
 		return blogService.getBlogUser(id);
-	
 	}
 	
 	@ModelAttribute("blogVo")
 	public BlogVo blogVo(@PathVariable("id") String id) {
 		
 		return blogService.getBlog(id);
-	
 	}
 	
 	
@@ -54,7 +52,6 @@ public class BlogController {
 						   Model model) {
 	
 		return "blog/blog-main";
-	
 	}
 	
 	//관리자
@@ -88,6 +85,7 @@ public class BlogController {
 		if(!blogService.adminChk(id, session)) {
 			return "error/403";
 		}
+		
 		return "blog/admin/blog-admin-cate";
 	}
 	
@@ -113,5 +111,6 @@ public class BlogController {
 		
 		return categoryList;
 	}
+	
 	
 }

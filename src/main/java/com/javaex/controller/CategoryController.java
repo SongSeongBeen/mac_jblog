@@ -14,20 +14,22 @@ import com.javaex.vo.CategoryVo;
 @RequestMapping("/category")
 public class CategoryController {
 
-
 	@Autowired
 	private CategoryService categoryService;
 	
-
 	@ResponseBody
 	@RequestMapping("/remove")
 	public boolean remove(@RequestParam("cateNo") int cateNo) { 
+		
 		return categoryService.remove(cateNo);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/add")
 	public CategoryVo add(@ModelAttribute CategoryVo categoryVo ) { 
+		
 		return categoryService.add(categoryVo);
 	}
+
+
 }

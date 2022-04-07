@@ -15,28 +15,32 @@ import com.javaex.vo.UserVo;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
 	
 	@RequestMapping("/loginForm")
 	public String loginForm() {
+		
 		return "user/loginForm";
 	}
 	
 	@RequestMapping("/joinForm")
 	public String joinForm() {
+		
 		return "user/joinForm";
 	}
 	
 	@RequestMapping("join")
 	public String join(@ModelAttribute UserVo userVo) {
+	
 		userService.join(userVo);
+		
 		return "user/joinSuccess";
 	}
 	
 	@RequestMapping("login")
-	public String login(@ModelAttribute UserVo userVo,
-						HttpSession session) {
+	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		
 		UserVo authVo = userService.login(userVo);
 		
@@ -51,19 +55,24 @@ public class UserController {
 	
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
+		
 		session.removeAttribute("authUser");
+		
 		return "redirect:/";
 	}
 	
 	@ResponseBody
 	@RequestMapping("dupCheck")
 	public boolean dupCheck(@RequestParam("id") String id) {
+		
 		return userService.dupCheck(id);
 	}
 	
 	@RequestMapping("initUser")
 	public String initUser() {
+		
 		userService.initUser();
+		
 		return "user/joinSuccess";
 	}
 	

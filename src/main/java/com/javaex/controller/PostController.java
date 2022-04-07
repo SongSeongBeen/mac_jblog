@@ -25,9 +25,12 @@ public class PostController {
 	}
 	
 	@RequestMapping("/add")
-	public String add(@ModelAttribute PostVo postVo,
-					@RequestParam("id")String id) {
+	public String add(@ModelAttribute PostVo postVo, @RequestParam("id")String id) {
+		
 		postService.add(postVo);
+		
 		return "redirect:/"+id+"/admin/writeForm";
 	}
+	
+	
 }

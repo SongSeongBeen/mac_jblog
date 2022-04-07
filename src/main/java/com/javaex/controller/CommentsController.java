@@ -22,21 +22,23 @@ public class CommentsController {
 	@ResponseBody
 	@RequestMapping("/add")
 	public CommentsVo add(@ModelAttribute CommentsVo commentsVo) {
-		System.out.println(commentsVo);
+		
 		return commentsService.add(commentsVo);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/list")
 	public List<CommentsVo> list(@RequestParam("postNo") int postNo){
-		//System.out.println(commentsService.getCmtList(postNo));
+		
 		return commentsService.getCmtList(postNo);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/remove")
 	public boolean remove(@RequestParam("cmtNo") int cmtNo) {
+		
 		return commentsService.remove(cmtNo);
 	}
+	
 	
 }

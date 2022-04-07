@@ -12,12 +12,13 @@ import com.javaex.service.SearchService;
 
 @Controller
 public class MainController {
+	
 	@Autowired
 	private SearchService searchService;
 
-	
 	@RequestMapping("/")
 	public String main() {
+		
 		return "main/index";
 	}
 
@@ -32,4 +33,5 @@ public class MainController {
 		return "main/index";
 	}
 	
+
 }
