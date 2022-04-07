@@ -78,7 +78,6 @@ public class PostService {
 		pMap.put("startPageBtnNo", startPageBtnNo);
 		pMap.put("endPageBtnNo", endPageBtnNo);
 		pMap.put("next", next);
-		pMap.put("postList", postList);
 	
 		return pMap;
 	}
