@@ -61,7 +61,7 @@ public class BlogController {
 		if(!blogService.adminChk(id, session)) {
 			return "error/403";
 		}
-		
+		 
 		BlogVo blogVo = blogService.getBlog(id);
 		
 		model.addAttribute("blogVo",blogVo);
